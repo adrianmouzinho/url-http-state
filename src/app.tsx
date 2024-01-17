@@ -1,10 +1,10 @@
-import { Search, PlusCircle } from 'lucide-react'
+import { PlusCircle } from 'lucide-react'
 
 import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./components/ui/table";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './components/ui/dialog';
-import { Label } from './components/ui/label';
+import { Dialog, DialogTrigger } from './components/ui/dialog';
+import { ProductsFilters } from './components/products-filters';
+import { CreateProductDialog } from './components/create-product-dialog';
 
 export function App() {
   return (
@@ -12,14 +12,7 @@ export function App() {
       <h1 className="text-3xl font-bold">Produtos</h1>
 
       <div className="flex items-center justify-between">
-        <form className="flex items-center gap-2">
-          <Input name="id" placeholder="ID do produto" />
-          <Input name="name" placeholder="Nome do produto" />
-          <Button type="submit" variant="outline">
-            <Search className="size-4 mr-2" />
-            Filtrar resultados
-          </Button>
-        </form>
+        <ProductsFilters />
 
         <Dialog>
           <DialogTrigger asChild>
@@ -29,30 +22,7 @@ export function App() {
             </Button>
           </DialogTrigger>
 
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Novo produto</DialogTitle>
-              <DialogDescription>Criar novo produto no sistema</DialogDescription>
-            </DialogHeader>
-
-            <form className="space-y-6">
-              <div className="grid grid-cols-4 gap-2 items-center text-right">
-                <Label htmlFor="name">Nome</Label>
-                <Input id="name" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 gap-2 items-center text-right">
-                <Label htmlFor="price">Preço</Label>
-                <Input id="price" className="col-span-3" />
-              </div>
-
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="outline">Cancelar</Button>
-                </DialogClose>
-                <Button type="submit">Salvar</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
+          <CreateProductDialog />
         </Dialog>
       </div>
 
