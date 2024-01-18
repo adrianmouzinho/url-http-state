@@ -2,24 +2,48 @@ import { Search } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSearchParams } from 'react-router-dom'
 
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 const productsFiltersSchema = z.object({
-  id: z.string(),
-  name: z.string(),
+  id: z.string().optional(),
+  name: z.string().optional(),
 })
 
 type ProductsFiltersData = z.infer<typeof productsFiltersSchema>
 
 export function ProductsFilters() {
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const id = searchParams.get('id')
+  const name = searchParams.get('name')
+
   const { register, handleSubmit } = useForm<ProductsFiltersData>({
-    resolver: zodResolver(productsFiltersSchema)
+    resolver: zodResolver(productsFiltersSchema),
+    values: {
+      id: id ?? '',
+      name: name ?? '',
+    }
   })
 
-  function handleFilterProducts(data: ProductsFiltersData) {
-    console.log(data)
+  function handleFilterProducts({ id, name }: ProductsFiltersData) {
+    setSearchParams(prev => {
+      if (id) {
+        prev.set('id', id)
+      } else {
+        prev.delete('id')
+      }
+
+      if (name) {
+        prev.set('name', name)
+      } else {
+        prev.delete('name')
+      }
+
+      return prev
+    })
   }
 
   return (
